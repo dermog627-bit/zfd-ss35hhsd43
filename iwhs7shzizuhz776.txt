@@ -1,7 +1,3 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/jgsyjddj1-eng/bdE-GG-DE76V6-G/main/Kdgwhajsvshzjzhshs"))()
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Jdheusbzvh, y827"))()
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Tahakom74"))()
 
 local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/refs/heads/main/DovEn529"))()
