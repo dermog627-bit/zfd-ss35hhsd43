@@ -1,0 +1,296 @@
+local Libary = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/kllooep/Fjjzxda6/refs/heads/main/DovEn529"
+))()
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+local Window = Libary:MakeWindow({
+    Title = "👹NetroZHub- فريق",
+    SubTitle = "by Developers",
+    LoadText = "NetroZHubDevelopers",
+    Flags = "NetroZ_Brookhaven"
+})
+
+Window:AddMinimizeButton({
+    Button = { Image = "rbxassetid://132069262307646", BackgroundTransparency = 0 },
+    Corner = { CornerRadius = UDim.new(35, 1) },
+})
+
+local TabNM = Window:MakeTab({
+    Title = "الادوات",
+    Icon = "rbxassetid://10723415903"
+})
+
+local SelectedTool = "Laptop"
+local Shape = "دائرة"
+local Radius = 15
+local Height = 20
+local CollectedTools = {}
+local ToolOffsets = {} -- تخزين الإزاحات الأصلية
+
+-- مسافة
+TabNM:AddTextBox({
+    Name = "المسافة",
+    Default = tostring(Radius),
+    TextDisappear = false,
+    Callback = function(v)
+        local n = tonumber(v)
+        if n then Radius = math.abs(n) end
+    end
+})
+
+-- ارتفاع
+TabNM:AddTextBox({
+    Name = "الارتفاع (سالب دائمًا)",
+    Default = tostring(math.abs(Height)),
+    TextDisappear = false,
+    Callback = function(v)
+        local n = tonumber(v)
+        if n then
+            Height = -math.abs(n)
+            -- تحديث الأدوات الحالية بحسب TextBox
+            for tool, offset in pairs(ToolOffsets) do
+                tool.GripPos = Vector3.new(offset.X, Height, offset.Z)
+                ToolOffsets[tool] = Vector3.new(offset.X, Height, offset.Z)
+            end
+        end
+    end
+})
+
+-- اختيار الأداة
+TabNM:AddDropdown({
+    Name = "الاداة",
+    Options = {"Laptop", "Iphone", "FireX"},
+    Default = SelectedTool,
+    Callback = function(v) SelectedTool = v end
+})
+
+-- اختيار الشكل
+TabNM:AddDropdown({
+    Name = "الشكل",
+    Options = {"دائرة", "مكعب", "كرة", "جناح"},
+    Default = Shape,
+    Callback = function(v) Shape = v end
+})
+
+-- جمع الأدوات
+local function getTools()
+    local char = player.Character or player.CharacterAdded:Wait()
+    local backpack = player:WaitForChild("Backpack")
+    local tools = {}
+    for _, v in pairs(char:GetChildren()) do
+        if v:IsA("Tool") and v.Name == SelectedTool then
+            table.insert(tools, v)
+        end
+    end
+    for _, v in pairs(backpack:GetChildren()) do
+        if v:IsA("Tool") and v.Name == SelectedTool then
+            table.insert(tools, v)
+        end
+    end
+    return tools
+end
+
+-- تنظيم الأدوات لكل شكل بشكل دقيق
+local function organizarItens()
+    local char = player.Character or player.CharacterAdded:Wait()
+    local root = char:WaitForChild("HumanoidRootPart")
+    local head = char:FindFirstChild("Head") or root
+    local tools = getTools()
+    if #tools == 0 then return end
+
+    CollectedTools = tools
+    ToolOffsets = {}
+
+    local center = head.Position
+    local count = #tools
+
+    -- دائرة
+    if Shape == "دائرة" then
+        local step = (2 * math.pi) / count
+        for i, tool in ipairs(tools) do
+            local angle = step * (i - 1)
+            local offset = Vector3.new(
+                math.cos(angle) * Radius,
+                Height,
+                math.sin(angle) * Radius
+            )
+            tool.Parent = char
+            tool.GripPos = offset
+            tool.Parent = player.Backpack
+            ToolOffsets[tool] = offset
+        end
+
+    -- مكعب
+    elseif Shape == "مكعب" then
+        local s = math.ceil(count ^ (1/3))
+        local gap = (Radius * 2) / math.max(s - 1, 1)
+        local idx = 1
+        for x = 0, s - 1 do
+            for y = 0, s - 1 do
+                for z = 0, s - 1 do
+                    if idx > count then break end
+                    local offset = Vector3.new(
+                        -Radius + x * gap,
+                        -Radius + y * gap + Height,
+                        -Radius + z * gap
+                    )
+                    local tool = tools[idx]
+                    tool.Parent = char
+                    tool.GripPos = offset
+                    tool.Parent = player.Backpack
+                    ToolOffsets[tool] = offset
+                    idx += 1
+                end
+            end
+        end
+
+    -- كرة
+    elseif Shape == "كرة" then
+        local idx = 1
+        local stepA = math.pi / math.ceil(count^(1/2))
+        local stepB = (2 * math.pi) / math.ceil(count^(1/2))
+        for a = 0, math.pi, stepA do
+            for b = 0, 2 * math.pi, stepB do
+                if idx > count then break end
+                local offset = Vector3.new(
+                    math.sin(a) * math.cos(b) * Radius,
+                    math.cos(a) * Radius + Height,
+                    math.sin(a) * math.sin(b) * Radius
+                )
+                local tool = tools[idx]
+                tool.Parent = char
+                tool.GripPos = offset
+                tool.Parent = player.Backpack
+                ToolOffsets[tool] = offset
+                idx += 1
+            end
+        end
+
+    -- جناح
+    elseif Shape == "جناح" then
+        local half = math.ceil(count / 2)
+        for i, tool in ipairs(tools) do
+            local side = (i <= half) and -1 or 1
+            local idx = (side == -1) and i or (i - half)
+            local angle = math.rad(idx * 12)
+            local offset = Vector3.new(
+                math.cos(angle) * Radius * side,
+                math.sin(angle) * Radius + Height,
+                -idx * 1.2
+            )
+            tool.Parent = char
+            tool.GripPos = offset
+            tool.Parent = player.Backpack
+            ToolOffsets[tool] = offset
+        end
+    end
+end
+
+TabNM:AddButton({
+    Name = "✅ تفعيل الشكل",
+    Callback = organizarItens
+})
+
+-- دوران الأدوات حول محور Y مع الحفاظ على ارتفاع TextBox
+local OrbitToggle = false
+local OrbitAngle = 0
+
+TabNM:AddToggle({
+    Name = "🔄 دوران الأدوات (ذكي)",
+    Default = false,
+    Callback = function(state)
+        OrbitToggle = state
+        if not state then return end
+        task.spawn(function()
+            while OrbitToggle do
+                local char = player.Character
+                local root = char and char:FindFirstChild("HumanoidRootPart")
+                if not root then task.wait() continue end
+                OrbitAngle += math.rad(2)
+                local rot = CFrame.Angles(0, OrbitAngle, 0)
+
+                for tool, offset in pairs(ToolOffsets) do
+                    if tool then
+                        local rotated = rot * Vector3.new(offset.X, 0, offset.Z)
+                        tool.GripPos = Vector3.new(
+                            rotated.X,
+                            offset.Y,
+                            rotated.Z
+                        )
+                    end
+                end
+
+                task.wait(0.03)
+            end
+        end)
+    end
+})
+
+-- تجميع لابتوب
+local LaptopLoop = false
+TabNM:AddToggle({
+    Name = "تجميع لابتوب",
+    Default = false,
+    Callback = function(state)
+        LaptopLoop = state
+        if not state then return end
+        task.spawn(function()
+            while LaptopLoop do
+                local char = player.Character
+                local root = char and char:FindFirstChild("HumanoidRootPart")
+                if not root then task.wait() continue end
+                local laptop = workspace.WorkspaceCom["001_CommercialStores"].CommercialStorage1.Store.Tools.Laptop
+                local clickDetector = laptop and laptop:FindFirstChild("ClickDetector")
+                if laptop and clickDetector then
+                    root.CFrame = laptop.CFrame
+                    fireclickdetector(clickDetector)
+                end
+                task.wait(0.1)
+            end
+        end)
+    end
+}) local FireXLoop = false
+
+TabNM:AddToggle({
+    Name = "تجميع FireX",
+    Default = false,
+    Callback = function(state)
+        FireXLoop = state
+        if not state then return end
+
+        task.spawn(function()
+            local Players = game:GetService("Players")
+            local player = Players.LocalPlayer
+
+            while FireXLoop do
+                -- انتظار الشخصية بشكل آمن
+                local char = player.Character or player.CharacterAdded:Wait()
+                local root = char:FindFirstChild("HumanoidRootPart")
+
+                if not root then
+                    task.wait()
+                    continue
+                end
+
+                -- المسار الصحيح
+                local fireXPath =
+                    workspace.WorkspaceCom["001_DayCare"]
+                    .Tools.FireX
+
+                local clickDetector = fireXPath:FindFirstChild("ClickDetector")
+
+                if fireXPath and clickDetector then
+                    -- الانتقال
+                    root.CFrame = fireXPath.CFrame
+                    -- النقر
+                    fireclickdetector(clickDetector)
+                end
+
+                task.wait(0.01)
+            end
+        end)
+    end
+})
