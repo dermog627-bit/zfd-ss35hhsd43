@@ -1,5 +1,367 @@
-local Libary = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/kllooep/Fjjzxda6/refs/heads/main/DovEn529"
+local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/refs/heads/main/DovEn529"))()
+
+local Window = Libary:MakeWindow({
+    Title = "👹NetroZHub- فريق",
+    SubTitle = "by: مطورين Developers (Ghali, , EV_Rami)",
+    LoadText = "NetroZHubDevelopers",
+    Flags = "NetroZ_Brookhaven"
+})
+Window:AddMinimizeButton({
+    Button = { Image = "rbxassetid://132069262307646", BackgroundTransparency = 0 },
+    Corner = { CornerRadius = UDim.new(35, 1) },
+})
+local Tab9 = Window:MakeTab({"Shaders", "sun"})
+
+local shaderEffects = {}
+local currentPreset = ""
+
+local function applyShaderEffect(effectType, properties)
+    local lighting = game:GetService("Lighting")
+    
+
+    local existingEffect = lighting:FindFirstChild("ShadowShader_" .. effectType)
+    if existingEffect then
+        existingEffect:Destroy()
+    end
+    
+    -- Cria novo efeito
+    local effect = Instance.new(effectType)
+    effect.Name = "ShadowShader_" .. effectType
+    
+    -- Aplica propriedades
+    for property, value in pairs(properties) do
+        if effect[property] ~= nil then
+            effect[property] = value
+        end
+    end
+    
+    effect.Enabled = true
+    effect.Parent = lighting
+    
+    shaderEffects[effectType] = effect
+    return effect
+end
+
+-- Função para remover todos os shaders
+local function removeAllShaders()
+    local lighting = game:GetService("Lighting")
+    
+    for effectName, effect in pairs(shaderEffects) do
+        if effect and effect.Parent then
+            effect:Destroy()
+        end
+    end
+    
+    shaderEffects = {}
+    
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Shaders",
+        Text = "Todos os shaders removidos!",
+        Duration = 3
+    })
+end
+
+Tab9:AddSection({"تأثير وقوة الاضواء"})
+
+Tab9:AddToggle({
+    Name = "تفعيل قوة الاضائة",
+    Default = false,
+    Callback = function(state)
+        if state then
+            applyShaderEffect("BloomEffect", {
+                Intensity = 1.5,      -- Intensidade do brilho
+                Size = 24,            -- Tamanho do efeito
+                Threshold = 0.9       -- Limiar de brilho
+            })
+        else
+            local effect = shaderEffects["BloomEffect"]
+            if effect then effect:Destroy() end
+        end
+    end
+})
+
+Tab9:AddSlider({
+    Name = "قوة وحجم الاضواء",
+    Min = 0.1,
+    Max = 5,
+    Default = 1.5,
+    Callback = function(value)
+        local effect = shaderEffects["BloomEffect"]
+        if effect then
+            effect.Intensity = value
+        end
+    end
+})
+Tab9:AddSection({"التشبعات والالوان"})
+
+Tab9:AddToggle({
+    Name = "تفعيل تشبع الشادرز",
+    Default = false,
+    Callback = function(state)
+        if state then
+            applyShaderEffect("ColorCorrectionEffect", {
+                Brightness = 0.05,    -- Brilho geral
+                Contrast = 1.1,       -- Contraste
+                Saturation = 0.8,     -- Saturação das cores
+                TintColor = Color3.fromRGB(255, 255, 255) -- Tonalidade
+            })
+        else
+            local effect = shaderEffects["ColorCorrectionEffect"]
+            if effect then effect:Destroy() end
+        end
+    end
+})
+
+Tab9:AddSlider({
+    Name = "تشبع الضوء",
+    Min = 0,
+    Max = 2,
+    Default = 0.8,
+    Callback = function(value)
+        local effect = shaderEffects["ColorCorrectionEffect"]
+        if effect then
+            effect.Saturation = value
+        end
+    end
+})
+
+Tab9:AddSlider({
+    Name = "تشبع الالوان",
+    Min = 0.5,
+    Max = 2,
+    Default = 1.1,
+    Callback = function(value)
+        local effect = shaderEffects["ColorCorrectionEffect"]
+        if effect then
+            effect.Contrast = value
+        end
+    end
+})
+
+Tab9:AddSlider({
+    Name = "تحكم بالاضاءة الماب",
+    Min = -0.5,
+    Max = 0.5,
+    Default = 0.05,
+    Callback = function(value)
+        local effect = shaderEffects["ColorCorrectionEffect"]
+        if effect then
+            effect.Brightness = value
+        end
+    end
+})
+
+Tab9:AddSection({"FPS"})
+
+Tab9:AddToggle({
+    Name = "تثبيت الفريمات",
+    Default = false,
+    Callback = function(state)
+        if state then
+            applyShaderEffect("DepthOfFieldEffect", {
+                FocusDistance = 50,   -- Distância do foco
+                InFocusRadius = 30,   -- Raio em foco
+                NearIntensity = 0.5,  -- Intensidade perto
+                FarIntensity = 0.5    -- Intensidade longe
+            })
+            
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Performance",
+                Text = "تم تثبيت الفريمات!",
+                Duration = 5
+            })
+        else
+            local effect = shaderEffects["DepthOfFieldEffect"]
+            if effect then effect:Destroy() end
+        end
+    end
+})
+Tab9:AddSection({"التغويش"})
+
+Tab9:AddToggle({
+    Name = "تفعيل دقة وتغويش",
+    Default = false,
+    Callback = function(state)
+        if state then
+            applyShaderEffect("BlurEffect", {
+                Size = 3  -- Tamanho do desfoque
+            })
+        else
+            local effect = shaderEffects["BlurEffect"]
+            if effect then effect:Destroy() end
+        end
+    end
+})
+
+Tab9:AddSlider({
+    Name = "دقة الشادر",
+    Min = 1,
+    Max = 10,
+    Default = 3,
+    Callback = function(value)
+        local effect = shaderEffects["BlurEffect"]
+        if effect then
+            effect.Size = value
+        end
+    end
+})
+
+-- Seção de Presets Prontos
+Tab9:AddSection({"مودات الشادرز"})
+
+-- Presets de shaders
+local shaderPresets = {
+    ["طور الحيوي"] = {
+        BloomEffect = {Intensity = 2.0, Size = 24, Threshold = 0.8},
+        ColorCorrectionEffect = {Brightness = 0.1, Contrast = 1.2, Saturation = 1.0},
+        SunRaysEffect = {Intensity = 0.15, Spread = 1.0}
+    },
+    
+    ["الكئيب"] = {
+        BloomEffect = {Intensity = 1.2, Size = 20, Threshold = 0.9},
+        ColorCorrectionEffect = {Brightness = -0.1, Contrast = 1.3, Saturation = 0.6, TintColor = Color3.fromRGB(255, 240, 220)},
+        DepthOfFieldEffect = {FocusDistance = 25, InFocusRadius = 15, NearIntensity = 0.7, FarIntensity = 0.7}
+    },
+    
+    ["طور الواقعي"] = {
+        BloomEffect = {Intensity = 0.8, Size = 16, Threshold = 0.95},
+        ColorCorrectionEffect = {Brightness = 0.05, Contrast = 1.1, Saturation = 0.7},
+        SunRaysEffect = {Intensity = 0.08, Spread = 0.8}
+    },
+    
+    ["طور المظلم"] = {
+        BloomEffect = {Intensity = 3.0, Size = 24, Threshold = 0.7},
+        ColorCorrectionEffect = {Brightness = -0.2, Contrast = 1.4, Saturation = 0.5, TintColor = Color3.fromRGB(180, 200, 255)},
+        BlurEffect = {Size = 2}
+    },
+    
+    ["طور الحلم"] = {
+        BloomEffect = {Intensity = 2.5, Size = 24, Threshold = 0.6},
+        ColorCorrectionEffect = {Brightness = 0.2, Contrast = 1.1, Saturation = 1.2, TintColor = Color3.fromRGB(255, 220, 255)},
+        BlurEffect = {Size = 4},
+        SunRaysEffect = {Intensity = 0.2, Spread = 1.2}
+    }
+}
+
+-- Aplicar preset
+local function applyShaderPreset(presetName)
+    removeAllShaders() -- Remove shaders atuais
+    
+    local preset = shaderPresets[presetName]
+    if preset then
+        for effectType, properties in pairs(preset) do
+            applyShaderEffect(effectType, properties)
+        end
+        
+        currentPreset = presetName
+        
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Shaders",
+            Text = "Preset " .. presetName .. " aplicado!",
+            Duration = 3
+        })
+    end
+end
+
+-- Criar botões para cada preset
+for presetName, _ in pairs(shaderPresets) do
+    Tab9:AddButton({
+        Name = "Preset: " .. presetName,
+        Callback = function()
+            applyShaderPreset(presetName)
+        end
+    })
+end
+
+-- Seção de Performance
+Tab9:AddSection({"Performance"})
+
+Tab9:AddButton({
+    Name = "شادر بسيط (للاجهزة الضعيفة)",
+    Callback = function()
+        removeAllShaders()
+        applyShaderEffect("ColorCorrectionEffect", {
+            Brightness = 0.05,
+            Contrast = 1.1,
+            Saturation = 0.8
+        })
+        
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Performance Mode",
+            Text = "Shaders leves ativados para melhor FPS",
+            Duration = 3
+        })
+    end
+})
+
+Tab9:AddButton({
+    Name = "حذف كل الشادر",
+    Callback = function()
+        removeAllShaders()
+    end
+})
+
+-- Seção Skybox Personalizado
+Tab9:AddSection({"اشكال السماء"})
+
+Tab9:AddButton({
+    Name = "سماء الفضاء",
+    Callback = function()
+        local lighting = game:GetService("Lighting")
+        
+        -- Remove sky atual
+        local currentSky = lighting:FindFirstChildOfClass("Sky")
+        if currentSky then
+            currentSky:Destroy()
+        end
+        
+        -- Cria novo sky
+        local sky = Instance.new("Sky")
+        sky.SkyboxBk = "rbxassetid://159454299"
+        sky.SkyboxDn = "rbxassetid://159454296"
+        sky.SkyboxFt = "rbxassetid://159454293"
+        sky.SkyboxLf = "rbxassetid://159454286"
+        sky.SkyboxRt = "rbxassetid://159454300"
+        sky.SkyboxUp = "rbxassetid://159454288"
+        sky.Parent = lighting
+        
+       
+        lighting.ClockTime = 0
+        lighting.Brightness = 0.1
+        lighting.Ambient = Color3.fromRGB(50, 50, 100)
+        
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Skybox",
+            Text = "Skybox سماء الفضاء!",
+            Duration = 3
+        })
+    end
+})
+
+Tab9:AddButton({
+    Name = "اعادة شكل السماء",
+    Callback = function()
+        local lighting = game:GetService("Lighting")
+        
+        local currentSky = lighting:FindFirstChildOfClass("Sky")
+        if currentSky then
+            currentSky:Destroy()
+        end
+        
+      
+        lighting.Brightness = 2
+        lighting.ClockTime = 14
+        lighting.Ambient = Color3.fromRGB(0, 0, 0)
+        
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Skybox",
+            Text = "تم الاعادة للوضع الطبيعي!",
+            Duration = 3
+        })
+    end
+})
+
+local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/refs/heads/main/DovEn529"
 ))()
 
 local Players = game:GetService("Players")
