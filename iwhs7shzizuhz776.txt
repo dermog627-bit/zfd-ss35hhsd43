@@ -136,19 +136,19 @@ InfoTab:AddToggle({
 	Default = true,
 	Callback = function(state)
 
-		 TARGET_BIO = "MiDe7moZ"
-		 FIRE_ON_ENABLE = "/found"
-		 SYSTEM_ENABLED = state
-		 connections = {}
+		local TARGET_BIO = "MiDe7moZ"
+		local FIRE_ON_ENABLE = "/found"
+		local SYSTEM_ENABLED = state
+		local connections = {}
 
-		 function fireBio(text)
+		local function fireBio(text)
 			if not SYSTEM_ENABLED then return end
 			ReplicatedStorage:WaitForChild("RE")
 				:WaitForChild("1RPNam1eTex1t")
 				:FireServer("RolePlayBio", text)
 		end
 
-		 function fireFoundThenClear()
+		local function fireFoundThenClear()
 			if not SYSTEM_ENABLED then return end
 			fireBio(FIRE_ON_ENABLE)
 			task.delay(1, function()
@@ -158,31 +158,31 @@ InfoTab:AddToggle({
 			end)
 		end
 
-		 function removeTag(plr)
+		local function removeTag(plr)
 			if plr.Character then
-				 t = plr.Character:FindFirstChild("NameTag")
+				local t = plr.Character:FindFirstChild("NameTag")
 				if t then t:Destroy() end
 			end
 		end
 
-		 function createTag(plr)
+		local function createTag(plr)
 			if not SYSTEM_ENABLED then return end
 			if not SavedPlayers[plr.UserId] then return end
 			if not plr.Character then return end
 
-			 head = plr.Character:FindFirstChild("Head")
+			local head = plr.Character:FindFirstChild("Head")
 			if not head then return end
 
 			removeTag(plr)
 
-			 role = "عضو"
+			local role = "عضو"
 			if Owners[plr.Name] then
 				role = "مطور"
 			elseif Admins[plr.Name] then
 				role = "ادمن"
 			end
 
-			 gui = Instance.new("BillboardGui")
+			local gui = Instance.new("BillboardGui")
 			gui.Name = "NameTag"
 			gui.Adornee = head
 			gui.Parent = plr.Character
@@ -190,19 +190,19 @@ InfoTab:AddToggle({
 			gui.StudsOffset = Vector3.new(0, 3.5, 0)
 			gui.AlwaysOnTop = true
 
-			 frame = Instance.new("Frame", gui)
+			local frame = Instance.new("Frame", gui)
 			frame.Size = UDim2.new(1, 0, 1, 0)
 			frame.BackgroundTransparency = 0.1
 			frame.BorderSizePixel = 0
 			Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
 
-			 gradient = Instance.new("UIGradient", frame)
+			local gradient = Instance.new("UIGradient", frame)
 			gradient.Rotation = 90
 
-			 stroke = Instance.new("UIStroke", frame)
+			local stroke = Instance.new("UIStroke", frame)
 			stroke.Thickness = 1.5
 
-			 label = Instance.new("TextLabel", frame)
+			local label = Instance.new("TextLabel", frame)
 			label.Size = UDim2.new(1, 0, 1, 0)
 			label.BackgroundTransparency = 1
 			label.TextScaled = true
@@ -233,16 +233,16 @@ InfoTab:AddToggle({
 			end
 		end
 
-		 function watchPlayer(plr)
+		local function watchPlayer(plr)
 			if not SYSTEM_ENABLED then return end
 
-			 bag = plr:WaitForChild("PlayersBag", 5)
+			local bag = plr:WaitForChild("PlayersBag", 5)
 			if not bag then return end
 
-			 bio = bag:WaitForChild("RPBio", 5)
+			local bio = bag:WaitForChild("RPBio", 5)
 			if not bio then return end
 
-			 function check()
+			local function check()
 				if not SYSTEM_ENABLED then return end
 				if bio.Value == TARGET_BIO and not SavedPlayers[plr.UserId] then
 					SavedPlayers[plr.UserId] = true
