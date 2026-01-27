@@ -1,15 +1,16 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Tahakom74"))()
- Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/refs/heads/main/DovEn529"))()
- Window = Libary:MakeWindow({
+Libary = loadstring(game:HttpGet("https://pastebin.com/raw/2wRun896"))()
+Window = Libary:MakeWindow({
     Title = "👹NetroZHub- فريق",
-    SubTitle = "by: مطورين Developers (Ghali, , EV_Rami)",
+    SubTitle = "",
     LoadText = "NetroZHubDevelopers",
     Flags = "NetroZ_Brookhaven"
 })
 Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://132069262307646", BackgroundTransparency = 0 },
+    Button = { Image = "rbxassetid://140608525913156", BackgroundTransparency = 0 },
     Corner = { CornerRadius = UDim.new(35, 1) },
 })
+
 Players = game:GetService("Players")
 Player = Players.LocalPlayer
 RunService = game:GetService("RunService")
