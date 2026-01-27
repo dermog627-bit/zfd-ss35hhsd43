@@ -1,4 +1,53 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Tahakom74"))()
+local Services = setmetatable({}, {
+	__index = function(_, service)
+		return game:GetService(service)
+	end
+})
+
+local Players              = Services.Players
+local Workspace            = Services.Workspace
+local TweenService         = Services.TweenService
+local UserInputService     = Services.UserInputService
+local RunService           = Services.RunService
+local ReplicatedStorage    = Services.ReplicatedStorage
+local ServerStorage        = Services.ServerStorage
+local ServerScriptService  = Services.ServerScriptService
+local StarterGui           = Services.StarterGui
+local StarterPack          = Services.StarterPack
+local StarterPlayer        = Services.StarterPlayer
+local TeleportService      = Services.TeleportService
+local HttpService          = Services.HttpService
+local SoundService         = Services.SoundService
+local Lighting             = Services.Lighting
+local MarketplaceService   = Services.MarketplaceService
+local ContextActionService = Services.ContextActionService
+local PathfindingService   = Services.PathfindingService
+local TextService          = Services.TextService
+local CollectionService    = Services.CollectionService
+local InsertService        = Services.InsertService
+local BadgeService         = Services.BadgeService
+local PhysicsService       = Services.PhysicsService
+local PolicyService        = Services.PolicyService
+local ProximityPromptService = Services.ProximityPromptService
+local GroupService         = Services.GroupService
+local AvatarEditorService  = Services.AvatarEditorService
+local Chat                 = Services.Chat
+local DataStoreService     = Services.DataStoreService
+local Debris               = Services.Debris
+local GuiService           = Services.GuiService
+local HapticService        = Services.HapticService
+local LocalizationService  = Services.LocalizationService
+local MaterialService      = Services.MaterialService
+local MeshService          = Services.MeshService
+local NetworkClient        = Services.NetworkClient
+local SocialService        = Services.SocialService
+local Stats                = Services.Stats
+local TestService          = Services.TestService
+local UserGameSettings     = Services.UserGameSettings
+local VRService            = Services.VRService
+local VoiceChatService     = Services.VoiceChatService
+local LocalPlayer = Players.LocalPlayer
 
 local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/refs/heads/main/DovEn529"))()
 local Window = Libary:MakeWindow({
