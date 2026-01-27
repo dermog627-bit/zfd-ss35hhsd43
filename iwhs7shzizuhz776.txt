@@ -10,7 +10,56 @@ Window:AddMinimizeButton({
     Button = { Image = "rbxassetid://132069262307646", BackgroundTransparency = 0 },
     Corner = { CornerRadius = UDim.new(35, 1) },
 })
+Players = game:GetService("Players")
+Player = Players.LocalPlayer
+RunService = game:GetService("RunService")
+TweenService = game:GetService("TweenService")
+UserInputService = game:GetService("UserInputService")
+ContextActionService = game:GetService("ContextActionService")
+GuiService = game:GetService("GuiService")
 
+ReplicatedStorage = game:GetService("ReplicatedStorage")
+ReplicatedFirst = game:GetService("ReplicatedFirst")
+TeleportService = game:GetService("TeleportService")
+HttpService = game:GetService("HttpService")
+
+Workspace = game:GetService("Workspace")
+Lighting = game:GetService("Lighting")
+PathfindingService = game:GetService("PathfindingService")
+PhysicsService = game:GetService("PhysicsService")
+SoundService = game:GetService("SoundService")
+
+StarterGui = game:GetService("StarterGui")
+StarterPack = game:GetService("StarterPack")
+StarterPlayer = game:GetService("StarterPlayer")
+CoreGui = game:GetService("CoreGui")
+
+ContentProvider = game:GetService("ContentProvider")
+InsertService = game:GetService("InsertService")
+
+Chat = game:GetService("Chat")
+TextService = game:GetService("TextService")
+
+DataStoreService = game:GetService("DataStoreService")
+MarketplaceService = game:GetService("MarketplaceService")
+BadgeService = game:GetService("BadgeService")
+GroupService = game:GetService("GroupService")
+
+HapticService = game:GetService("HapticService")
+VRService = game:GetService("VRService")
+
+PolicyService = game:GetService("PolicyService")
+
+Stats = game:GetService("Stats")
+
+LocalizationService = game:GetService("LocalizationService")
+
+Debris = game:GetService("Debris")
+CollectionService = game:GetService("CollectionService")
+Selection = game:GetService("Selection")
+ProximityPromptService = game:GetService("ProximityPromptService")
+TestService = game:GetService("TestService")
+LogService = game:GetService("LogService")
  InfoTab = Window:MakeTab({ 
 Title = "الحقوق والرتب", 
 Icon = "rbxassetid://10723415903" })
@@ -466,9 +515,7 @@ InfoTab:AddToggle({
 local TabNM = Window:MakeTab({ 
 Title = "اللاعب", 
 Icon = "paper" })
-
-local Players = game:GetService("Players")
-local pl = Players.LocalPlayer
+pl = Players.LocalPlayer
 
 local DEFAULT_SPEED = 16
 local DEFAULT_JUMP = 50
@@ -548,18 +595,23 @@ TabNM:AddToggle({
 	Callback = function(state)
 
 		if state then
+			if _G.InfJumpConn then
+				pcall(function() _G.InfJumpConn:Disconnect() end)
+				_G.InfJumpConn = nil
+			end
+
 			_G.InfJumpConn = UserInputService.JumpRequest:Connect(function()
-				local char = LocalPlayer.Character
-				if char then
-					local hum = char:FindFirstChildOfClass("Humanoid")
+				if Player and Player.Character then
+					hum = Player.Character:FindFirstChildOfClass("Humanoid")
 					if hum then
 						hum:ChangeState(Enum.HumanoidStateType.Jumping)
 					end
 				end
 			end)
+
 		else
 			if _G.InfJumpConn then
-				_G.InfJumpConn:Disconnect()
+				pcall(function() _G.InfJumpConn:Disconnect() end)
 				_G.InfJumpConn = nil
 			end
 		end
@@ -572,26 +624,38 @@ TabNM:AddToggle({
 	Callback = function(state)
 
 		if state then
+			if _G.NoclipConn then
+				pcall(function() _G.NoclipConn:Disconnect() end)
+				_G.NoclipConn = nil
+			end
+
 			_G.NoclipConn = RunService.Stepped:Connect(function()
-				local char = LocalPlayer.Character
-				if char then
-					for _, part in ipairs(char:GetDescendants()) do
+				if Player and Player.Character then
+					for _, part in ipairs(Player.Character:GetDescendants()) do
 						if part:IsA("BasePart") then
 							part.CanCollide = false
 						end
 					end
 				end
 			end)
+
 		else
 			if _G.NoclipConn then
-				_G.NoclipConn:Disconnect()
+				pcall(function() _G.NoclipConn:Disconnect() end)
 				_G.NoclipConn = nil
+			end
+
+			if Player and Player.Character then
+				for _, part in ipairs(Player.Character:GetDescendants()) do
+					if part:IsA("BasePart") then
+						part.CanCollide = true
+					end
+				end
 			end
 		end
 
 	end
 })
-
 local RE = game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r")
 
 local rainbowColors = {}
