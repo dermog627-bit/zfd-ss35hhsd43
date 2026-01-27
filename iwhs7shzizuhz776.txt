@@ -64,6 +64,7 @@ local Admins = {
     alskndrany91 = true,
 	talarom12349 = true,
 	XXTAJXX63 = true,
+    sajjad2502 = true,
 	DemonHub_Dev = true,
 	malk_55117 = true,
 	imane_pink54 = true,
