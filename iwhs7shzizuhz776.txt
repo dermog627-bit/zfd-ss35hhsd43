@@ -96,10 +96,6 @@ InfoTab:AddParagraph({
 })
 
 InfoTab:AddSection({ "الرتب" })
-
- Players = game:GetService("Players")
- ReplicatedStorage = game:GetService("ReplicatedStorage")
-
  Owners = {
 	Sajwaad = true,
 	ghalidev_0 = true,
@@ -295,10 +291,6 @@ InfoTab:AddToggle({
 InfoTab:AddParagraph({"مطور"})
 InfoTab:AddParagraph({"ادمن"})
 InfoTab:AddParagraph({"عضو"})
-
- Players = game:GetService("Players")
- Player = Players.LocalPlayer
- TweenService = game:GetService("TweenService")
 
  Owners = {
 	["Sajwaad"] = true,
@@ -818,7 +810,6 @@ TabNM:AddToggle({
 local ChatTab = Window:MakeTab({ 
 Title = "الشات", 
 Icon = "rbxassetid://10723415903" })
-local StarterGui = game:GetService("StarterGui")
 
 ChatTab:AddToggle({
     Name = " إظهار / إخفاء الشات القديم",
@@ -913,7 +904,7 @@ shadersTab:AddButton({
 })
 
 	
-local TrollTab = Window:MakeTab({ Title = "سكربتات تخريب", Icon = "rbxassetid://13364900349" })
+TrollTab = Window:MakeTab({ Title = "سكربتات تخريب", Icon = "rbxassetid://13364900349" })
 
 
 TrollTab:AddSection({ "سكربتات الابواب" })
@@ -921,8 +912,6 @@ TrollTab:AddButton({
     Name = "V2(هالة ابواب💥)",
     Description = "تدوير الابواب والسيارات حول اللاعب",
     Callback = function()
-    local Players, RunService, LocalPlayer, Workspace = game:GetService("Players"), game:GetService("RunService"), game:GetService("Players").LocalPlayer, game:GetService("Workspace")
-
 local gui = Instance.new("ScreenGui", game.CoreGui)
 local frame = Instance.new("Frame", gui)
 frame.Size = UDim2.new(0, 300, 0, 200)
@@ -1057,11 +1046,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperTradei/Super/ref
 })
 
 TrollTab:AddSection({ "🌋الكوارث" })
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local StarterGui = game:GetService("StarterGui")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
 
 local TshirtIDs = {
     ["الافتراضي"] = nil, -- الافتراضي
