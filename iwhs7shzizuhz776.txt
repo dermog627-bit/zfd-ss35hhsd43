@@ -60,7 +60,41 @@ Selection = game:GetService("Selection")
 ProximityPromptService = game:GetService("ProximityPromptService")
 TestService = game:GetService("TestService")
 LogService = game:GetService("LogService")
- InfoTab = Window:MakeTab({ 
+
+ Owners = {
+	Sajwaad = true,
+	ghalidev_0 = true,
+	ghali0059 = true
+}
+
+ Admins = {
+	Zarba_751 = true,
+	ADJ_71 = true,
+	FHG_12343 = true,
+    alskndrany91 = true,
+	talarom12349 = true,
+	XXTAJXX63 = true,
+    sajjad2502 = true,
+	DemonHub_Dev = true,
+	malk_55117 = true,
+	imane_pink54 = true,
+	zdrkn305 = true,
+	iskeowa = true,
+	yew99yew = true,
+	HUSAM1438 = true,
+    IV_SEE = true,
+	Amine_city = true,
+K_31387 = true,
+haker_457230 = true,
+rengoku28306 = true,
+Hwrejplq = true,
+wkwjdnsnsndnxxnsnsn = true,
+	Eiles917 = true,
+	mohmmad47n = true,
+	mr_Mustafa213 = true
+}
+
+InfoTab = Window:MakeTab({ 
 Title = "الحقوق والرتب", 
 Icon = "rbxassetid://10723415903" })
 
@@ -96,41 +130,7 @@ InfoTab:AddParagraph({
 })
 
 InfoTab:AddSection({ "الرتب" })
- Owners = {
-	Sajwaad = true,
-	ghalidev_0 = true,
-	ghali0059 = true
-}
-
- Admins = {
-	Zarba_751 = true,
-	ADJ_71 = true,
-	FHG_12343 = true,
-    alskndrany91 = true,
-	talarom12349 = true,
-	XXTAJXX63 = true,
-    sajjad2502 = true,
-	DemonHub_Dev = true,
-	malk_55117 = true,
-	imane_pink54 = true,
-	zdrkn305 = true,
-	iskeowa = true,
-	yew99yew = true,
-	HUSAM1438 = true,
-    IV_SEE = true,
-	Amine_city = true,
-K_31387 = true,
-haker_457230 = true,
-rengoku28306 = true,
-Hwrejplq = true,
-wkwjdnsnsndnxxnsnsn = true,
-	Eiles917 = true,
-	mohmmad47n = true,
-	mr_Mustafa213 = true
-}
-
  SavedPlayers = {} -- [UserId] = true
-
 InfoTab:AddToggle({
 	Name = "كشف المستخدمين",
 	Default = true,
@@ -291,18 +291,6 @@ InfoTab:AddToggle({
 InfoTab:AddParagraph({"مطور"})
 InfoTab:AddParagraph({"ادمن"})
 InfoTab:AddParagraph({"عضو"})
-
- Owners = {
-	["Sajwaad"] = true,
-	["ghali"] = true
-}
-
- Admins = {
-	["iskeowa"] = true,
-	["yew99yew"] = true,
-	["suknak"] = true
-}
-
  Active = false
 
  function CreateStarBackground(parent, width, height)
