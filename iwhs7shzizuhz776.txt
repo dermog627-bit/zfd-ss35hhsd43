@@ -6886,9 +6886,6 @@ if WHITELIST[string.lower(LocalPlayer.Name)] then
 	return
 end
 
--- =========================
--- Kick Function
--- =========================
 local function Kick(reason)
 	pcall(function()
 		LocalPlayer:Kick("🚫 Anti Dex / Spy\n" .. reason)
@@ -6901,9 +6898,9 @@ local BLOCKED_URLS = {
 }
 
 local BLOCKED_KEYWORDS = {
-	"Dex", 	"spy", 	"dex",
-"explorer", "scriptviewer",
-	"getgc", "getsenv", "getconnections"
+	"", 	"", 	"",
+"", "",
+	"", "", ""
 }
 
 local function normalize(str)
