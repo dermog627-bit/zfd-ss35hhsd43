@@ -1,6 +1,6 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Tahakom74"))()
-local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/refs/heads/main/DovEn529"))()
-local Window = Libary:MakeWindow({
+ Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/refs/heads/main/DovEn529"))()
+ Window = Libary:MakeWindow({
     Title = "👹NetroZHub- فريق",
     SubTitle = "by: مطورين Developers (Ghali, , EV_Rami)",
     LoadText = "NetroZHubDevelopers",
@@ -11,7 +11,7 @@ Window:AddMinimizeButton({
     Corner = { CornerRadius = UDim.new(35, 1) },
 })
 
-local InfoTab = Window:MakeTab({ 
+ InfoTab = Window:MakeTab({ 
 Title = "الحقوق والرتب", 
 Icon = "rbxassetid://10723415903" })
 
@@ -48,16 +48,16 @@ InfoTab:AddParagraph({
 
 InfoTab:AddSection({ "الرتب" })
 
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+ Players = game:GetService("Players")
+ ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Owners = {
+ Owners = {
 	Sajwaad = true,
 	ghalidev_0 = true,
 	ghali0059 = true
 }
 
-local Admins = {
+ Admins = {
 	Zarba_751 = true,
 	ADJ_71 = true,
 	FHG_12343 = true,
@@ -84,26 +84,26 @@ wkwjdnsnsndnxxnsnsn = true,
 	mr_Mustafa213 = true
 }
 
-local SavedPlayers = {} -- [UserId] = true
+ SavedPlayers = {} -- [UserId] = true
 
 InfoTab:AddToggle({
 	Name = "كشف المستخدمين",
 	Default = true,
 	Callback = function(state)
 
-		local TARGET_BIO = "MiDe7moZ"
-		local FIRE_ON_ENABLE = "/found"
-		local SYSTEM_ENABLED = state
-		local connections = {}
+		 TARGET_BIO = "MiDe7moZ"
+		 FIRE_ON_ENABLE = "/found"
+		 SYSTEM_ENABLED = state
+		 connections = {}
 
-		local function fireBio(text)
+		 function fireBio(text)
 			if not SYSTEM_ENABLED then return end
 			ReplicatedStorage:WaitForChild("RE")
 				:WaitForChild("1RPNam1eTex1t")
 				:FireServer("RolePlayBio", text)
 		end
 
-		local function fireFoundThenClear()
+		 function fireFoundThenClear()
 			if not SYSTEM_ENABLED then return end
 			fireBio(FIRE_ON_ENABLE)
 			task.delay(1, function()
@@ -113,31 +113,31 @@ InfoTab:AddToggle({
 			end)
 		end
 
-		local function removeTag(plr)
+		 function removeTag(plr)
 			if plr.Character then
-				local t = plr.Character:FindFirstChild("NameTag")
+				 t = plr.Character:FindFirstChild("NameTag")
 				if t then t:Destroy() end
 			end
 		end
 
-		local function createTag(plr)
+		 function createTag(plr)
 			if not SYSTEM_ENABLED then return end
 			if not SavedPlayers[plr.UserId] then return end
 			if not plr.Character then return end
 
-			local head = plr.Character:FindFirstChild("Head")
+			 head = plr.Character:FindFirstChild("Head")
 			if not head then return end
 
 			removeTag(plr)
 
-			local role = "عضو"
+			 role = "عضو"
 			if Owners[plr.Name] then
 				role = "مطور"
 			elseif Admins[plr.Name] then
 				role = "ادمن"
 			end
 
-			local gui = Instance.new("BillboardGui")
+			 gui = Instance.new("BillboardGui")
 			gui.Name = "NameTag"
 			gui.Adornee = head
 			gui.Parent = plr.Character
@@ -145,19 +145,19 @@ InfoTab:AddToggle({
 			gui.StudsOffset = Vector3.new(0, 3.5, 0)
 			gui.AlwaysOnTop = true
 
-			local frame = Instance.new("Frame", gui)
+			 frame = Instance.new("Frame", gui)
 			frame.Size = UDim2.new(1, 0, 1, 0)
 			frame.BackgroundTransparency = 0.1
 			frame.BorderSizePixel = 0
 			Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
 
-			local gradient = Instance.new("UIGradient", frame)
+			 gradient = Instance.new("UIGradient", frame)
 			gradient.Rotation = 90
 
-			local stroke = Instance.new("UIStroke", frame)
+			 stroke = Instance.new("UIStroke", frame)
 			stroke.Thickness = 1.5
 
-			local label = Instance.new("TextLabel", frame)
+			 label = Instance.new("TextLabel", frame)
 			label.Size = UDim2.new(1, 0, 1, 0)
 			label.BackgroundTransparency = 1
 			label.TextScaled = true
@@ -188,16 +188,16 @@ InfoTab:AddToggle({
 			end
 		end
 
-		local function watchPlayer(plr)
+		 function watchPlayer(plr)
 			if not SYSTEM_ENABLED then return end
 
-			local bag = plr:WaitForChild("PlayersBag", 5)
+			 bag = plr:WaitForChild("PlayersBag", 5)
 			if not bag then return end
 
-			local bio = bag:WaitForChild("RPBio", 5)
+			 bio = bag:WaitForChild("RPBio", 5)
 			if not bio then return end
 
-			local function check()
+			 function check()
 				if not SYSTEM_ENABLED then return end
 				if bio.Value == TARGET_BIO and not SavedPlayers[plr.UserId] then
 					SavedPlayers[plr.UserId] = true
@@ -247,51 +247,51 @@ InfoTab:AddParagraph({"مطور"})
 InfoTab:AddParagraph({"ادمن"})
 InfoTab:AddParagraph({"عضو"})
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local TweenService = game:GetService("TweenService")
+ Players = game:GetService("Players")
+ Player = Players.LocalPlayer
+ TweenService = game:GetService("TweenService")
 
-local Owners = {
+ Owners = {
 	["Sajwaad"] = true,
 	["ghali"] = true
 }
 
-local Admins = {
+ Admins = {
 	["iskeowa"] = true,
 	["yew99yew"] = true,
 	["suknak"] = true
 }
 
-local Active = false
+ Active = false
 
-local function CreateStarBackground(parent, width, height)
-	local container = Instance.new("Frame")
+ function CreateStarBackground(parent, width, height)
+	 container = Instance.new("Frame")
 	container.BackgroundTransparency = 1
 	container.Size = UDim2.new(0, width, 0, height)
 	container.ClipsDescendants = true
 	container.Parent = parent
 
-	local space = Instance.new("Frame")
+	 space = Instance.new("Frame")
 	space.BackgroundColor3 = Color3.fromRGB(7, 5, 20)
 	space.BackgroundTransparency = 0
 	space.BorderSizePixel = 0
 	space.Size = UDim2.new(1, 0, 1, 0)
 	space.Parent = container
 
-	local starCount = 70
+	 starCount = 70
 	for _ = 1, starCount do
-		local star = Instance.new("Frame")
+		 star = Instance.new("Frame")
 		star.BackgroundTransparency = 0
 		star.BorderSizePixel = 0
 		star.Size = UDim2.new(0, 2, 0, 2)
 		star.Position = UDim2.new(0, math.random(0, width), 0, math.random(0, height))
 		star.ZIndex = 1
 
-		local corner = Instance.new("UICorner")
+		 corner = Instance.new("UICorner")
 		corner.CornerRadius = UDim.new(1, 0)
 		corner.Parent = star
 
-		local r = math.random(1, 10)
+		 r = math.random(1, 10)
 		if r <= 6 then
 			star.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		elseif r <= 9 then
@@ -302,20 +302,20 @@ local function CreateStarBackground(parent, width, height)
 
 		star.Parent = container
 
-		local baseY = star.Position.Y.Offset
-		local speed = math.random() * 0.7 + 0.3
-		local amp = math.random(10, 35)
-		local phase = math.random() * math.pi * 2
-		local twinkle = math.random() < 0.25
+		 baseY = star.Position.Y.Offset
+		 speed = math.random() * 0.7 + 0.3
+		 amp = math.random(10, 35)
+		 phase = math.random() * math.pi * 2
+		 twinkle = math.random() < 0.25
 
 		task.spawn(function()
-			local t = 0
+			 t = 0
 			while star.Parent do
 				t = t + speed * 0.05
 				star.Position = UDim2.new(0, star.Position.X.Offset, 0, baseY + math.sin(t + phase) * amp)
 				if twinkle then
-					local b = (math.sin(t * 2) + 1) / 2
-					local c = star.BackgroundColor3
+					 b = (math.sin(t * 2) + 1) / 2
+					 c = star.BackgroundColor3
 					star.BackgroundColor3 = Color3.new(
 						math.min(1, c.R + b * 0.2),
 						math.min(1, c.G + b * 0.2),
@@ -330,14 +330,14 @@ local function CreateStarBackground(parent, width, height)
 	return container
 end
 
-local function CreateNotification(player, rankType, action)
-	local gui = Instance.new("ScreenGui")
+function CreateNotification(player, rankType, action)
+	gui = Instance.new("ScreenGui")
 	gui.Name = "JoinLeaveNotify_" .. player.UserId
 	gui.ResetOnSpawn = false
 	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	gui.Parent = game:GetService("CoreGui")
 
-	local frame = Instance.new("Frame")
+	frame = Instance.new("Frame")
 	frame.Size = UDim2.new(0, 260, 0, 85)
 	frame.Position = UDim2.new(0.5, -130, 1, -100)
 	frame.BackgroundTransparency = 1
@@ -345,9 +345,10 @@ local function CreateNotification(player, rankType, action)
 	frame.ZIndex = 2
 	frame.Parent = gui
 
-	local stars = CreateStarBackground(frame, 260, 85)
+	stars = CreateStarBackground(frame, 260, 85)
 
-	local bgColor, textColor, title
+	bgColor, textColor, title = nil, nil, nil
+
 	if rankType == "Owner" then
 		bgColor = Color3.fromRGB(45, 35, 0)
 		textColor = Color3.fromRGB(255, 215, 0)
@@ -366,7 +367,7 @@ local function CreateNotification(player, rankType, action)
 		title = "لاعب"
 	end
 
-	local overlay = Instance.new("Frame")
+	overlay = Instance.new("Frame")
 	overlay.BackgroundColor3 = bgColor
 	overlay.BackgroundTransparency = 0.15
 	overlay.BorderSizePixel = 0
@@ -374,7 +375,7 @@ local function CreateNotification(player, rankType, action)
 	overlay.ZIndex = 2
 	overlay.Parent = stars
 
-	local avatar = Instance.new("ImageLabel")
+	 avatar = Instance.new("ImageLabel")
 	avatar.Size = UDim2.new(0, 60, 0, 60)
 	avatar.Position = UDim2.new(0, 12, 0, 12)
 	avatar.BackgroundTransparency = 1
@@ -382,7 +383,7 @@ local function CreateNotification(player, rankType, action)
 	avatar.ZIndex = 3
 	avatar.Parent = frame
 
-	local nameLabel = Instance.new("TextLabel")
+	 nameLabel = Instance.new("TextLabel")
 	nameLabel.Size = UDim2.new(0, 170, 0, 24)
 	nameLabel.Position = UDim2.new(0, 80, 0, 12)
 	nameLabel.BackgroundTransparency = 1
@@ -394,7 +395,7 @@ local function CreateNotification(player, rankType, action)
 	nameLabel.ZIndex = 3
 	nameLabel.Parent = frame
 
-	local actionLabel = Instance.new("TextLabel")
+	 actionLabel = Instance.new("TextLabel")
 	actionLabel.Size = UDim2.new(0, 170, 0, 24)
 	actionLabel.Position = UDim2.new(0, 80, 0, 48)
 	actionLabel.BackgroundTransparency = 1
@@ -406,7 +407,7 @@ local function CreateNotification(player, rankType, action)
 	actionLabel.ZIndex = 3
 	actionLabel.Parent = frame
 
-	local tween = TweenService:Create(
+	 tween = TweenService:Create(
 		frame,
 		TweenInfo.new(0.7, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 		{ Position = UDim2.new(0.5, -130, 0, 30) }
@@ -420,14 +421,14 @@ local function CreateNotification(player, rankType, action)
 	end)
 end
 
-local function GetPlayerRank(player)
+ function GetPlayerRank(player)
 	if Owners[player.Name] then
 		return "Owner"
 	elseif Admins[player.Name] then
 		return "Admin"
 	else
-		local success, isFriend = pcall(function()
-			return LocalPlayer:IsFriendsWith(player.UserId)
+		 success, isFriend = pcall(function()
+			return Player:IsFriendsWith(player.UserId)
 		end)
 		if success and isFriend then
 			return "Friend"
@@ -437,16 +438,16 @@ local function GetPlayerRank(player)
 	end
 end
 
-local function StartMonitoring()
+ function StartMonitoring()
 	Players.PlayerAdded:Connect(function(player)
-		if Active and player ~= LocalPlayer then
-			local rank = GetPlayerRank(player)
+		if Active and player ~= Player then
+			 rank = GetPlayerRank(player)
 			CreateNotification(player, rank, "دخل")
 		end
 	end)
 	Players.PlayerRemoving:Connect(function(player)
-		if Active and player ~= LocalPlayer then
-			local rank = GetPlayerRank(player)
+		if Active and player ~= Player then
+			 rank = GetPlayerRank(player)
 			CreateNotification(player, rank, "خرج")
 		end
 	end)
@@ -462,7 +463,6 @@ InfoTab:AddToggle({
 		end
 	end
 })
-
 local TabNM = Window:MakeTab({ 
 Title = "اللاعب", 
 Icon = "paper" })
