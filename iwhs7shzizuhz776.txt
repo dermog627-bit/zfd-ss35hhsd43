@@ -1035,10 +1035,14 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperTradei/Super/ref
 })
 
 TrollTab:AddSection({ "🌋الكوارث" })
+ local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local StarterGui = game:GetService("StarterGui")
 
 local TshirtIDs = {
-    ["الافتراضي"] = nil, -- الافتراضي
-    ["colkid"] = 98679358331654, -- نفس الموجود في السكربت القديم
+    ["الافتراضي"] = nil,
+    ["colkid"] = 98679358331654,
     ["T-Shirt 3"] = 100000000000003,
     ["T-Shirt 4"] = 100000000000004,
     ["T-Shirt 5"] = 100000000000005,
@@ -1049,21 +1053,7 @@ local TshirtIDs = {
     ["T-Shirt 10"] = 100000000000010
 }
 
-local SelectedTshirtID = nil -- تيشرت مختار
-
-local function playAnimation(animId)
-    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
-
-    local anim = Instance.new("Animation")
-    anim.AnimationId = "rbxassetid://" .. animId
-
-    local track = humanoid:LoadAnimation(anim)
-    track.Priority = Enum.AnimationPriority.Action4
-    track:Play(0.1, 1, 1)
-
-    return track
-end
+local SelectedTshirtID = nil
 
 local function notify(title, text)
     StarterGui:SetCore("SendNotification", {
@@ -1075,44 +1065,117 @@ end
 
 TrollTab:AddDropdown({
     Name = "اختر التيشرت",
-    Description = "اختر تيشيرت لتطبيقه مع السكاي بوكس",
-    Options = {"الافتراضي","colkid","T-Shirt 3","T-Shirt 4","T-Shirt 5","T-Shirt 6","T-Shirt 7","T-Shirt 8","T-Shirt 9","T-Shirt 10"},
+    Description = "يتم تطبيقه عند تشغيل Skybox FE",
+    Options = {
+        "الافتراضي","colkid","T-Shirt 3","T-Shirt 4","T-Shirt 5",
+        "T-Shirt 6","T-Shirt 7","T-Shirt 8","T-Shirt 9","T-Shirt 10"
+    },
     Default = "الافتراضي",
     Callback = function(option)
         SelectedTshirtID = TshirtIDs[option]
-        notify("T-Shirt Selected", "تم اختيار: " .. option)
+        notify("T-Shirt", "تم اختيار: "..option)
     end
 })
+
+ SkyboxActive = false
+ CurrentTrack = nil
+ RigidTrack = nil
 
 TrollTab:AddButton({
-    Name = "تشغيل اختراق السماء🌌",
-    Description = "تلوين السماء بتيشيرت اللاعب(تظهر للناس)",
-    Callback = function()
-        local WearShirt = ReplicatedStorage.Remotes:FindFirstChild("WearShirt")
-        local ChangeBody = ReplicatedStorage.Remotes:FindFirstChild("ChangeCharacterBody")
+   Name = "اختراق السماء يظهر🥶",
+   Callback = function()
 
-        if SelectedTshirtID then
-            if WearShirt then
-                pcall(function()
-                    WearShirt:InvokeServer(SelectedTshirtID)
-                end)
+        if SkyboxActive then
+            if CurrentTrack then
+                CurrentTrack:Stop(0.1)
+                CurrentTrack = nil
             end
+            if RigidTrack then
+                RigidTrack:Stop(0.1)
+                RigidTrack = nil
+            end
+
+            ReplicatedStorage.Remotes.ResetCharacterAppearance:FireServer()
+            task.wait(0.3)
+
+             char = LocalPlayer.Character
+            if char then
+                 hum = char:FindFirstChildOfClass("Humanoid")
+                if hum then hum.Health = 100 end
+            end
+
+            SkyboxActive = false
+            print("")
+            return
         end
 
-        if ChangeBody then
+         WearShirt = ReplicatedStorage.Remotes:FindFirstChild("WearShirt")
+        if SelectedTshirtID and WearShirt then
             pcall(function()
-                ChangeBody:InvokeServer({100839513065432})
+                WearShirt:InvokeServer(SelectedTshirtID)
             end)
         end
+        ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer({100839513065432})
 
-        playAnimation(101852027997337)
-        notify("Skybox", "تم تفعيل السكاي بوكس بنجاح!")
+         player = LocalPlayer
+         character = player.Character or player.CharacterAdded:Wait()
+         humanoid = character:WaitForChild("Humanoid")
+
+        local Settings = {
+            ["Fade In"] = 0.1,
+            ["Fade Out"] = 0.1,
+            ["Weight"] = 1,
+            ["Speed"] = 1,
+            ["Time Position"] = 0
+        }
+
+         function LoadTrack(id)
+             anim = Instance.new("Animation")
+            anim.AnimationId = "rbxassetid://"..id
+             track = humanoid:LoadAnimation(anim)
+            track.Priority = Enum.AnimationPriority.Action4
+            track:Play(Settings["Fade In"], Settings["Weight"], Settings["Speed"])
+            CurrentTrack = track
+            return track
+        end
+
+        LoadTrack(70883871260184)
+        task.wait(0.5)
+
+         plank = Instance.new("Animation")
+        plank.AnimationId = "rbxassetid://3695333486"
+        RigidTrack = humanoid:LoadAnimation(plank)
+        RigidTrack.Priority = Enum.AnimationPriority.Movement
+        RigidTrack:Play(0.1,1,0)
+
+        SkyboxActive = true
+        print("Skybox")
+   end
+}) TrollTab:AddButton({
+    Name = "🌃الغاء اختراق السماء",
+    Callback = function()
+        if CurrentTrack then
+            CurrentTrack:Stop(0.1)
+            CurrentTrack = nil
+        end
+        if RigidTrack then
+            RigidTrack:Stop(0.1)
+            RigidTrack = nil
+        end
+
+        SkyboxActive = false
+        ReplicatedStorage.Remotes.ResetCharacterAppearance:FireServer()
+        task.wait(0.3)
+
+         char = LocalPlayer.Character
+        if char then
+             hum = char:FindFirstChildOfClass("Humanoid")
+            if hum then hum.Health = 100 end
+        end
+
+        print("")
     end
 })
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-
 local SpinSpeed = 1
 local SpinEnabled = false
 local SpinConnection = nil
@@ -1156,31 +1219,6 @@ TrollTab:AddToggle({
                 SpinConnection = nil
             end
         end
-    end
-})
-
-TrollTab:AddButton({
-    Name = "إيقاف اختراق السماء🌌",
-    Description = "ارجاع اللاعب للوضع الطبيعي",
-    Callback = function()
-        local ResetRemote = ReplicatedStorage.Remotes:FindFirstChild("ResetCharacterAppearance")
-        if ResetRemote then
-            pcall(function()
-                ResetRemote:FireServer()
-            end)
-        end
-
-        local char = LocalPlayer.Character
-        if char then
-            local humanoid = char:FindFirstChildOfClass("Humanoid")
-            if humanoid then
-                for _, track in pairs(humanoid:GetPlayingAnimationTracks()) do
-                    track:Stop()
-                end
-            end
-        end
-
-        notify("Skybox", "تم إيقاف السكاي بوكس!")
     end
 })
 
