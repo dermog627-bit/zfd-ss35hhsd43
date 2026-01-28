@@ -1223,7 +1223,164 @@ TrollTab:AddToggle({
         end
     end
 })
+TrollTab:AddSection({ "فلاش يعمي السيرفر🚨" })
+TrollTab:AddToggle({
+	Name = "V2فلاش يغطي الماب",
+	Default = false,
+	Callback = function(v)
 
+		 Players = game:GetService("Players")
+		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+		LocalPlayer = Players.LocalPlayer
+		 ChangeCharacterBody = ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("ChangeCharacterBody")
+
+	 ANIM_ID = "rbxassetid://70883871260184"
+
+	 NUKE_BODY = {
+			96655874457685,
+			123402086843885,
+			78300682916056,
+			86276701020724,
+			78409653958165,
+			120668655481073
+		}
+
+		-- متغيرات محلية للزر فقط
+		if not _G.NukeSkyboxV2 then
+			_G.NukeSkyboxV2 = {}
+		end
+	data = _G.NukeSkyboxV2
+
+		 function getHumanoid()
+			local char = LocalPlayer.Character
+			if not char then return end
+			return char:FindFirstChildOfClass("Humanoid")
+		end
+
+		if v then
+			 humanoid = getHumanoid()
+			if not humanoid then return end
+
+			 d = humanoid:GetAppliedDescription()
+			data.savedBody = {
+				d.Torso,
+				d.RightArm,
+				d.LeftArm,
+				d.RightLeg,
+				d.LeftLeg,
+				d.Head
+			}
+
+			pcall(function()
+				ChangeCharacterBody:InvokeServer(NUKE_BODY)
+			end)
+
+			task.wait(0.3)
+
+			 anim = Instance.new("Animation")
+			anim.AnimationId = ANIM_ID
+			data.track = humanoid:LoadAnimation(anim)
+			data.track.Priority = Enum.AnimationPriority.Action4
+			data.track:Play(0.1, 1, 1)
+			data.track:AdjustSpeed(0.0001)
+
+		else
+			if data.track then
+				pcall(function()
+					data.track:Stop()
+					data.track:Destroy()
+				end)
+				data.track = nil
+			end
+
+			if data.savedBody then
+				task.wait(0.2)
+				pcall(function()
+					ChangeCharacterBody:InvokeServer(data.savedBody)
+				end)
+			end
+		end
+	end
+})
+TrollTab:AddToggle({
+	Name = "V1فلاش يرمش السيرفر",
+	Default = false,
+	Callback = function(v)
+
+		Players = game:GetService("Players")
+		ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+		LocalPlayer = Players.LocalPlayer
+		 ChangeCharacterBody = ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("ChangeCharacterBody")
+
+		 ANIM_ID = "rbxassetid://70883871260184"
+
+		 NUKE_BODY = {
+			96655874457685,
+			123402086843885,
+			78300682916056,
+			86276701020724,
+			78409653958165,
+			120668655481073
+		}
+
+		if not _G.NukeFlashBack then
+			_G.NukeFlashBack = {}
+		end
+		 data = _G.NukeFlashBack
+
+		 function getHumanoid()
+			 char = LocalPlayer.Character
+			if not char then return end
+			return char:FindFirstChildOfClass("Humanoid")
+		end
+
+		if v then
+			local humanoid = getHumanoid()
+			if not humanoid then return end
+
+		 d = humanoid:GetAppliedDescription()
+			data.savedBody = {
+				d.Torso,
+				d.RightArm,
+				d.LeftArm,
+				d.RightLeg,
+				d.LeftLeg,
+				d.Head
+			}
+
+			pcall(function()
+				ChangeCharacterBody:InvokeServer(NUKE_BODY)
+			end)
+
+			task.wait(0.3)
+
+			 anim = Instance.new("Animation")
+			anim.AnimationId = ANIM_ID
+			data.track = humanoid:LoadAnimation(anim)
+			data.track.Priority = Enum.AnimationPriority.Action4
+			data.track:Play(0.1, 1, 1)
+			data.track:AdjustSpeed(5)
+
+		else
+			if data.track then
+				pcall(function()
+					data.track:Stop()
+					data.track:Destroy()
+				end)
+				data.track = nil
+			end
+
+			if data.savedBody then
+				task.wait(0.2)
+				pcall(function()
+					ChangeCharacterBody:InvokeServer(data.savedBody)
+				end)
+			end
+		end
+	end
+})
 TrollTab:AddButton({
     Name = "[⚠️ MUITO OP] سفينة ترگع ام السيرفر",
     Description = "",
