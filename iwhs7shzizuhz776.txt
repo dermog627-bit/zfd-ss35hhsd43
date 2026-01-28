@@ -1381,6 +1381,7 @@ TrollTab:AddToggle({
 		end
 	end
 })
+TrollTab:AddSection({ "اعصار السفينة🔥" })
 TrollTab:AddButton({
     Name = "[⚠️ MUITO OP] سفينة ترگع ام السيرفر",
     Description = "",
