@@ -73,6 +73,7 @@ LogService = game:GetService("LogService")
 	ADJ_71 = true,
 	FHG_12343 = true,
     alskndrany91 = true,
+azabozhra1 = true,
     FeeFaa7 = true,
     Nykysaf = true,
 	talarom12349 = true,
