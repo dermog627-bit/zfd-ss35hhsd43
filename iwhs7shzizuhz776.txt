@@ -819,82 +819,500 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperTradei/Super/ref
     end
 })
 
-local shadersTab = Window:MakeTab({ Title = "(شادر)جودة", Icon = "rbxassetid://10747382750" })
+ Tab9 = Window:MakeTab({"الشادر", "sun"})
 
-shadersTab:AddSection({ "جودة" })
-shadersTab:AddButton({
-    Name = "(RTX)شادر",
-    Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Tahakom75"))()
+ shaderEffects = {}
+ currentPreset = ""
+
+function applyShaderEffect(effectType, properties)
+lighting = game:GetService("Lighting")
+    
+
+     existingEffect = lighting:FindFirstChild("ShadowShader_" .. effectType)
+    if existingEffect then
+        existingEffect:Destroy()
+    end
+    
+    
+     effect = Instance.new(effectType)
+    effect.Name = "ShadowShader_" .. effectType
+    
+
+    for property, value in pairs(properties) do
+        if effect[property] ~= nil then
+            effect[property] = value
+        end
+    end
+    
+    effect.Enabled = true
+    effect.Parent = lighting
+    
+    shaderEffects[effectType] = effect
+    return effect
 end
-})
 
-shadersTab:AddButton({
-    Name = "جودة إضاءة سينمائية ",
-    Callback = function()
-        local Lighting = game:GetService("Lighting")
-		local Bloom = Instance.new("BloomEffect")
-		local Blur = Instance.new("BlurEffect")
-		local ColorCor = Instance.new("ColorCorrectionEffect")
-		local SunRays = Instance.new("SunRaysEffect")
-		local Sky = Instance.new("Sky")
-		local Atm = Instance.new("Atmosphere")
+ function removeAllShaders()
+     lighting = game:GetService("Lighting")
+    
+    for effectName, effect in pairs(shaderEffects) do
+        if effect and effect.Parent then
+            effect:Destroy()
+        end
+    end
+    
+    shaderEffects = {}
+    
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "الشادر",
+        Text = "!",
+        Duration = 3
+    })
+end
 
-		for _, v in pairs(Lighting:GetChildren()) do
-			v:Destroy()
-		end
+Tab9:AddSection({"تأثير وقوة الاضواء"})
 
-		Bloom.Parent = Lighting
-		Blur.Parent = Lighting
-		ColorCor.Parent = Lighting
-		SunRays.Parent = Lighting
-		Sky.Parent = Lighting
-		Atm.Parent = Lighting
-
-		Bloom.Intensity = 0.3
-		Bloom.Size = 10
-		Bloom.Threshold = 0.8
-
-		Blur.Size = 5
-		ColorCor.Brightness = 0.1
-		ColorCor.Contrast = 0.5
-		ColorCor.Saturation = -0.3
-		ColorCor.TintColor = Color3.fromRGB(255, 235, 203)
-
-		SunRays.Intensity = 0.075
-		SunRays.Spread = 0.727
-
-		Sky.SkyboxBk = "http://www.roblox.com/asset/?id=151165214"
-		Sky.SkyboxDn = "http://www.roblox.com/asset/?id=151165197"
-		Sky.SkyboxFt = "http://www.roblox.com/asset/?id=151165224"
-		Sky.SkyboxLf = "http://www.roblox.com/asset/?id=151165191"
-		Sky.SkyboxRt = "http://www.roblox.com/asset/?id=151165206"
-		Sky.SkyboxUp = "http://www.roblox.com/asset/?id=151165227"
-		Sky.SunAngularSize = 10
-
-		Lighting.Ambient = Color3.fromRGB(2,2,2)
-		Lighting.Brightness = 2.25
-		Lighting.ColorShift_Bottom = Color3.fromRGB(0,0,0)
-		Lighting.ColorShift_Top = Color3.fromRGB(0,0,0)
-		Lighting.EnvironmentDiffuseScale = 0.2
-		Lighting.EnvironmentSpecularScale = 0.2
-		Lighting.GlobalShadows = true
-		Lighting.OutdoorAmbient = Color3.fromRGB(0,0,0)
-		Lighting.ShadowSoftness = 0.2
-		Lighting.ClockTime = 17
-		Lighting.GeographicLatitude = 45
-		Lighting.ExposureCompensation = 0.5
-
-		Atm.Density = 0.364
-		Atm.Offset = 0.556
-		Atm.Color = Color3.fromRGB(199, 175, 166)
-		Atm.Decay = Color3.fromRGB(44, 39, 33)
-		Atm.Glare = 0.36
-		Atm.Haze = 1.72
-
+Tab9:AddToggle({
+    Name = "تفعيل قوة الاضائة",
+    Default = false,
+    Callback = function(state)
+        if state then
+            applyShaderEffect("BloomEffect", {
+                Intensity = 1.5,   
+                Size = 24,           
+                Threshold = 0.9      
+            })
+        else
+             effect = shaderEffects["BloomEffect"]
+            if effect then effect:Destroy() end
+        end
     end
 })
 
+Tab9:AddSlider({
+    Name = "قوة وحجم الاضواء",
+    Min = 0.1,
+    Max = 5,
+    Default = 1.5,
+    Callback = function(value)
+         effect = shaderEffects["BloomEffect"]
+        if effect then
+            effect.Intensity = value
+        end
+    end
+})
+Tab9:AddSection({"التشبعات والالوان"})
+
+Tab9:AddToggle({
+    Name = "تفعيل تشبع الشادرز",
+    Default = false,
+    Callback = function(state)
+        if state then
+            applyShaderEffect("ColorCorrectionEffect", {
+                Brightness = 0.05,    
+                Contrast = 1.1,       
+                Saturation = 0.8,     
+                TintColor = Color3.fromRGB(255, 255, 255) -- Tonalidade
+            })
+        else
+             effect = shaderEffects["ColorCorrectionEffect"]
+            if effect then effect:Destroy() end
+        end
+    end
+})
+
+Tab9:AddSlider({
+    Name = "تشبع الضوء",
+    Min = 0,
+    Max = 2,
+    Default = 0.8,
+    Callback = function(value)
+         effect = shaderEffects["ColorCorrectionEffect"]
+        if effect then
+            effect.Saturation = value
+        end
+    end
+})
+
+Tab9:AddSlider({
+    Name = "تشبع الالوان",
+    Min = 0.5,
+    Max = 2,
+    Default = 1.1,
+    Callback = function(value)
+         effect = shaderEffects["ColorCorrectionEffect"]
+        if effect then
+            effect.Contrast = value
+        end
+    end
+})
+
+Tab9:AddSlider({
+    Name = "تحكم بالاضاءة الماب",
+    Min = -0.5,
+    Max = 0.5,
+    Default = 0.05,
+    Callback = function(value)
+         effect = shaderEffects["ColorCorrectionEffect"]
+        if effect then
+            effect.Brightness = value
+        end
+    end
+})
+
+Tab9:AddSection({"التغويش"})
+
+Tab9:AddToggle({
+    Name = "تفعيل دقة وتغويش",
+    Default = false,
+    Callback = function(state)
+        if state then
+            applyShaderEffect("BlurEffect", {
+                Size = 3  
+            })
+        else
+             effect = shaderEffects["BlurEffect"]
+            if effect then effect:Destroy() end
+        end
+    end
+})
+
+Tab9:AddSlider({
+    Name = "دقة الشادر",
+    Min = 1,
+    Max = 10,
+    Default = 3,
+    Callback = function(value)
+         effect = shaderEffects["BlurEffect"]
+        if effect then
+            effect.Size = value
+        end
+    end
+})
+
+Tab9:AddSection({"مودات الشادرز"})
+
+ shaderPresets = {
+    ["طور الحيوي"] = {
+        BloomEffect = {Intensity = 2.0, Size = 24, Threshold = 0.8},
+        ColorCorrectionEffect = {Brightness = 0.1, Contrast = 1.2, Saturation = 1.0},
+        SunRaysEffect = {Intensity = 0.15, Spread = 1.0}
+    },
+    
+    ["الكئيب"] = {
+        BloomEffect = {Intensity = 1.2, Size = 20, Threshold = 0.9},
+        ColorCorrectionEffect = {Brightness = -0.1, Contrast = 1.3, Saturation = 0.6, TintColor = Color3.fromRGB(255, 240, 220)},
+        DepthOfFieldEffect = {FocusDistance = 25, InFocusRadius = 15, NearIntensity = 0.7, FarIntensity = 0.7}
+    },
+    
+    ["طور الواقعي"] = {
+        BloomEffect = {Intensity = 0.8, Size = 16, Threshold = 0.95},
+        ColorCorrectionEffect = {Brightness = 0.05, Contrast = 1.1, Saturation = 0.7},
+        SunRaysEffect = {Intensity = 0.08, Spread = 0.8}
+    },
+    
+    ["طور المظلم"] = {
+        BloomEffect = {Intensity = 3.0, Size = 24, Threshold = 0.7},
+        ColorCorrectionEffect = {Brightness = -0.2, Contrast = 1.4, Saturation = 0.5, TintColor = Color3.fromRGB(180, 200, 255)},
+        BlurEffect = {Size = 2}
+    },
+    
+    ["طور الحلم"] = {
+        BloomEffect = {Intensity = 2.5, Size = 24, Threshold = 0.6},
+        ColorCorrectionEffect = {Brightness = 0.2, Contrast = 1.1, Saturation = 1.2, TintColor = Color3.fromRGB(255, 220, 255)},
+        BlurEffect = {Size = 4},
+        SunRaysEffect = {Intensity = 0.2, Spread = 1.2}
+    }
+}
+
+
+ function applyShaderPreset(presetName)
+    removeAllShaders() -- Remove shaders atuais
+    
+     preset = shaderPresets[presetName]
+    if preset then
+        for effectType, properties in pairs(preset) do
+            applyShaderEffect(effectType, properties)
+        end
+        
+        currentPreset = presetName
+        
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Shaders",
+            Text = "Preset " .. presetName .. " aplicado!",
+            Duration = 3
+        })
+    end
+end
+
+for presetName, _ in pairs(shaderPresets) do
+    Tab9:AddButton({
+        Name = "Preset: " .. presetName,
+        Callback = function()
+            applyShaderPreset(presetName)
+        end
+    })
+end
+
+Tab9:AddSection({"الشادرات"})
+Tab9:AddToggle({
+    Name = "RTX/شادر",
+    Default = false,
+    Callback = function(state)
+
+        if state then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Tahakom75"))()
+
+        else
+
+            if workspace:FindFirstChild("ShootingStars") then
+                workspace.ShootingStars:Destroy()
+            end
+
+            for _, s in ipairs(workspace:GetChildren()) do
+                if s.Name == "Star" or s.Name == "ShootingStar" then
+                    s:Destroy()
+                end
+            end
+
+            if workspace:FindFirstChild("FakeRain") then
+                workspace.FakeRain:Destroy()
+            end
+
+            for _, snd in ipairs(workspace:GetChildren()) do
+                if snd:IsA("Sound") then
+                    snd:Destroy()
+                end
+            end
+
+            for _, snd in ipairs(game:GetService("SoundService"):GetChildren()) do
+                if snd.Name == "BirdsSound"
+                or snd.Name == "FountainSound"
+                or snd.Name == "MyCustomSound"
+                or snd.Name == "SpaceAmbience" then
+                    snd:Destroy()
+                end
+            end
+
+            if workspace:FindFirstChild("FountainPart") then
+                workspace.FountainPart:Destroy()
+            end
+
+            for _, p in ipairs(workspace:GetDescendants()) do
+                if p:IsA("BasePart") then
+                    p.Reflectance = 0
+                end
+            end
+
+            g = game:GetService("Lighting")
+
+            for _, v in ipairs(g:GetChildren()) do
+                if v:IsA("Sky")
+                or v:IsA("BloomEffect")
+                or v:IsA("SunRaysEffect")
+                or v:IsA("Atmosphere")
+                or v:IsA("ColorCorrectionEffect")
+                or v:IsA("BlurEffect") then
+                    v:Destroy()
+                end
+            end
+
+            g.Brightness = 1
+            g.GlobalShadows = true
+            g.EnvironmentSpecularScale = 1
+            g.EnvironmentDiffuseScale = 1
+            g.FogColor = Color3.fromRGB(192,192,192)
+            g.FogStart = 0
+            g.FogEnd = 100000
+            g.OutdoorAmbient = Color3.fromRGB(128,128,128)
+            g.ClockTime = 14
+            g.GeographicLatitude = 41
+            g.ExposureCompensation = 0
+
+            s2 = Instance.new("Sky")
+            s2.SkyboxBk = ""
+            s2.SkyboxDn = ""
+            s2.SkyboxFt = ""
+            s2.SkyboxLf = ""
+            s2.SkyboxRt = ""
+            s2.SkyboxUp = ""
+            s2.Parent = g
+
+        end
+
+    end
+})
+Tab9:AddToggle({
+    Name = "جودة إضاءة سينمائية",
+    Default = false,
+    Callback = function(state)
+
+        Lighting = game:GetService("Lighting")
+
+        if state then
+
+            for _, v in pairs(Lighting:GetChildren()) do
+                if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") 
+                or v:IsA("SunRaysEffect") or v:IsA("Sky") or v:IsA("Atmosphere") then
+                    v:Destroy()
+                end
+            end
+
+            Bloom = Instance.new("BloomEffect", Lighting)
+            Blur = Instance.new("BlurEffect", Lighting)
+            ColorCor = Instance.new("ColorCorrectionEffect", Lighting)
+            SunRays = Instance.new("SunRaysEffect", Lighting)
+            Sky = Instance.new("Sky", Lighting)
+            Atm = Instance.new("Atmosphere", Lighting)
+
+            Bloom.Intensity = 0.3
+            Bloom.Size = 10
+            Bloom.Threshold = 0.8
+
+            Blur.Size = 5
+            ColorCor.Brightness = 0.1
+            ColorCor.Contrast = 0.5
+            ColorCor.Saturation = -0.3
+            ColorCor.TintColor = Color3.fromRGB(255, 235, 203)
+
+            SunRays.Intensity = 0.075
+            SunRays.Spread = 0.727
+
+            Sky.SkyboxBk = "http://www.roblox.com/asset/?id=151165214"
+            Sky.SkyboxDn = "http://www.roblox.com/asset/?id=151165197"
+            Sky.SkyboxFt = "http://www.roblox.com/asset/?id=151165224"
+            Sky.SkyboxLf = "http://www.roblox.com/asset/?id=151165191"
+            Sky.SkyboxRt = "http://www.roblox.com/asset/?id=151165206"
+            Sky.SkyboxUp = "http://www.roblox.com/asset/?id=151165227"
+            Sky.SunAngularSize = 10
+
+            Lighting.Ambient = Color3.fromRGB(2,2,2)
+            Lighting.Brightness = 2.25
+            Lighting.ColorShift_Bottom = Color3.fromRGB(0,0,0)
+            Lighting.ColorShift_Top = Color3.fromRGB(0,0,0)
+            Lighting.EnvironmentDiffuseScale = 0.2
+            Lighting.EnvironmentSpecularScale = 0.2
+            Lighting.GlobalShadows = true
+            Lighting.OutdoorAmbient = Color3.fromRGB(0,0,0)
+            Lighting.ShadowSoftness = 0.2
+            Lighting.ClockTime = 17
+            Lighting.GeographicLatitude = 45
+            Lighting.ExposureCompensation = 0.5
+
+            Atm.Density = 0.364
+            Atm.Offset = 0.556
+            Atm.Color = Color3.fromRGB(199, 175, 166)
+            Atm.Decay = Color3.fromRGB(44, 39, 33)
+            Atm.Glare = 0.36
+            Atm.Haze = 1.72
+
+        else
+
+            for _, v in pairs(Lighting:GetChildren()) do
+                if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") 
+                or v:IsA("SunRaysEffect") or v:IsA("Sky") or v:IsA("Atmosphere") then
+                    v:Destroy()
+                end
+            end
+
+            
+            Lighting.Ambient = Color3.fromRGB(128,128,128)
+            Lighting.Brightness = 1
+            Lighting.ColorShift_Bottom = Color3.fromRGB(0,0,0)
+            Lighting.ColorShift_Top = Color3.fromRGB(0,0,0)
+            Lighting.EnvironmentDiffuseScale = 1
+            Lighting.EnvironmentSpecularScale = 1
+            Lighting.GlobalShadows = true
+            Lighting.OutdoorAmbient = Color3.fromRGB(128,128,128)
+            Lighting.ShadowSoftness = 0
+            Lighting.ClockTime = 14
+            Lighting.GeographicLatitude = 41
+            Lighting.ExposureCompensation = 0
+        end
+    end
+})
+Tab9:AddButton({
+    Name = "شادر بسيط (للاجهزة الضعيفة)",
+    Callback = function()
+        removeAllShaders()
+        applyShaderEffect("ColorCorrectionEffect", {
+            Brightness = 0.05,
+            Contrast = 1.1,
+            Saturation = 0.8
+        })
+        
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "الشادر",
+            Text = "شادر بسيط تم التفعيل",
+            Duration = 3
+        })
+    end
+})
+
+Tab9:AddButton({
+    Name = "حذف كل الشادر",
+    Callback = function()
+        removeAllShaders()
+    end
+})
+
+Tab9:AddSection({"اشكال السماء"})
+
+Tab9:AddButton({
+    Name = "سماء الفضاء",
+    Callback = function()
+         lighting = game:GetService("Lighting")
+        
+    
+         currentSky = lighting:FindFirstChildOfClass("Sky")
+        if currentSky then
+            currentSky:Destroy()
+        end
+        
+       
+         sky = Instance.new("Sky")
+        sky.SkyboxBk = "rbxassetid://159454299"
+        sky.SkyboxDn = "rbxassetid://159454296"
+        sky.SkyboxFt = "rbxassetid://159454293"
+        sky.SkyboxLf = "rbxassetid://159454286"
+        sky.SkyboxRt = "rbxassetid://159454300"
+        sky.SkyboxUp = "rbxassetid://159454288"
+        sky.Parent = lighting
+        
+       
+        lighting.ClockTime = 0
+        lighting.Brightness = 0.1
+        lighting.Ambient = Color3.fromRGB(50, 50, 100)
+        
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Skybox",
+            Text = "Skybox سماء الفضاء!",
+            Duration = 3
+        })
+    end
+})
+
+Tab9:AddButton({
+    Name = "اعادة شكل السماء",
+    Callback = function()
+         lighting = game:GetService("Lighting")
+        
+         currentSky = lighting:FindFirstChildOfClass("Sky")
+        if currentSky then
+            currentSky:Destroy()
+        end
+        
+      
+        lighting.Brightness = 2
+        lighting.ClockTime = 14
+        lighting.Ambient = Color3.fromRGB(0, 0, 0)
+        
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Skybox",
+            Text = "تم الاعادة للوضع الطبيعي!",
+            Duration = 3
+        })
+    end
+})
 	
 TrollTab = Window:MakeTab({ Title = "سكربتات تخريب", Icon = "rbxassetid://13364900349" })
 
