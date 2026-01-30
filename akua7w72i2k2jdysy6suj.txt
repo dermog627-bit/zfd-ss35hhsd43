@@ -245,76 +245,181 @@ for presetName, _ in pairs(shaderPresets) do
 end
 
 Tab9:AddSection({"الشادرات"})
-Tab9:AddButton({
-    Name = "(RTX)شادر",
-    Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Tahakom75"))()
-end
+Tab9:AddToggle({
+    Name = "RTX/شادر",
+    Default = false,
+    Callback = function(state)
+
+        if state then
+
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/kllooep/Fjjzxda6/main/Tahakom75"))()
+
+        else
+
+            if workspace:FindFirstChild("ShootingStars") then
+                workspace.ShootingStars:Destroy()
+            end
+
+            for _, s in ipairs(workspace:GetChildren()) do
+                if s.Name == "Star" or s.Name == "ShootingStar" then
+                    s:Destroy()
+                end
+            end
+
+            if workspace:FindFirstChild("FakeRain") then
+                workspace.FakeRain:Destroy()
+            end
+
+            for _, snd in ipairs(workspace:GetChildren()) do
+                if snd:IsA("Sound") then
+                    snd:Destroy()
+                end
+            end
+
+            for _, snd in ipairs(game:GetService("SoundService"):GetChildren()) do
+                if snd.Name == "BirdsSound"
+                or snd.Name == "FountainSound"
+                or snd.Name == "MyCustomSound"
+                or snd.Name == "SpaceAmbience" then
+                    snd:Destroy()
+                end
+            end
+
+            if workspace:FindFirstChild("FountainPart") then
+                workspace.FountainPart:Destroy()
+            end
+
+            for _, p in ipairs(workspace:GetDescendants()) do
+                if p:IsA("BasePart") then
+                    p.Reflectance = 0
+                end
+            end
+
+            g = game:GetService("Lighting")
+
+            for _, v in ipairs(g:GetChildren()) do
+                if v:IsA("Sky")
+                or v:IsA("BloomEffect")
+                or v:IsA("SunRaysEffect")
+                or v:IsA("Atmosphere")
+                or v:IsA("ColorCorrectionEffect")
+                or v:IsA("BlurEffect") then
+                    v:Destroy()
+                end
+            end
+
+            g.Brightness = 1
+            g.GlobalShadows = true
+            g.EnvironmentSpecularScale = 1
+            g.EnvironmentDiffuseScale = 1
+            g.FogColor = Color3.fromRGB(192,192,192)
+            g.FogStart = 0
+            g.FogEnd = 100000
+            g.OutdoorAmbient = Color3.fromRGB(128,128,128)
+            g.ClockTime = 14
+            g.GeographicLatitude = 41
+            g.ExposureCompensation = 0
+
+            s2 = Instance.new("Sky")
+            s2.SkyboxBk = ""
+            s2.SkyboxDn = ""
+            s2.SkyboxFt = ""
+            s2.SkyboxLf = ""
+            s2.SkyboxRt = ""
+            s2.SkyboxUp = ""
+            s2.Parent = g
+
+        end
+
+    end
 })
+Tab9:AddToggle({
+    Name = "جودة إضاءة سينمائية",
+    Default = false,
+    Callback = function(state)
 
-Tab9:AddButton({
-    Name = "جودة إضاءة سينمائية ",
-    Callback = function()
-        local Lighting = game:GetService("Lighting")
-		local Bloom = Instance.new("BloomEffect")
-		local Blur = Instance.new("BlurEffect")
-		local ColorCor = Instance.new("ColorCorrectionEffect")
-		local SunRays = Instance.new("SunRaysEffect")
-		local Sky = Instance.new("Sky")
-		local Atm = Instance.new("Atmosphere")
+        Lighting = game:GetService("Lighting")
 
-		for _, v in pairs(Lighting:GetChildren()) do
-			v:Destroy()
-		end
+        if state then
 
-		Bloom.Parent = Lighting
-		Blur.Parent = Lighting
-		ColorCor.Parent = Lighting
-		SunRays.Parent = Lighting
-		Sky.Parent = Lighting
-		Atm.Parent = Lighting
+            for _, v in pairs(Lighting:GetChildren()) do
+                if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") 
+                or v:IsA("SunRaysEffect") or v:IsA("Sky") or v:IsA("Atmosphere") then
+                    v:Destroy()
+                end
+            end
 
-		Bloom.Intensity = 0.3
-		Bloom.Size = 10
-		Bloom.Threshold = 0.8
+            Bloom = Instance.new("BloomEffect", Lighting)
+            Blur = Instance.new("BlurEffect", Lighting)
+            ColorCor = Instance.new("ColorCorrectionEffect", Lighting)
+            SunRays = Instance.new("SunRaysEffect", Lighting)
+            Sky = Instance.new("Sky", Lighting)
+            Atm = Instance.new("Atmosphere", Lighting)
 
-		Blur.Size = 5
-		ColorCor.Brightness = 0.1
-		ColorCor.Contrast = 0.5
-		ColorCor.Saturation = -0.3
-		ColorCor.TintColor = Color3.fromRGB(255, 235, 203)
+            Bloom.Intensity = 0.3
+            Bloom.Size = 10
+            Bloom.Threshold = 0.8
 
-		SunRays.Intensity = 0.075
-		SunRays.Spread = 0.727
+            Blur.Size = 5
+            ColorCor.Brightness = 0.1
+            ColorCor.Contrast = 0.5
+            ColorCor.Saturation = -0.3
+            ColorCor.TintColor = Color3.fromRGB(255, 235, 203)
 
-		Sky.SkyboxBk = "http://www.roblox.com/asset/?id=151165214"
-		Sky.SkyboxDn = "http://www.roblox.com/asset/?id=151165197"
-		Sky.SkyboxFt = "http://www.roblox.com/asset/?id=151165224"
-		Sky.SkyboxLf = "http://www.roblox.com/asset/?id=151165191"
-		Sky.SkyboxRt = "http://www.roblox.com/asset/?id=151165206"
-		Sky.SkyboxUp = "http://www.roblox.com/asset/?id=151165227"
-		Sky.SunAngularSize = 10
+            SunRays.Intensity = 0.075
+            SunRays.Spread = 0.727
 
-		Lighting.Ambient = Color3.fromRGB(2,2,2)
-		Lighting.Brightness = 2.25
-		Lighting.ColorShift_Bottom = Color3.fromRGB(0,0,0)
-		Lighting.ColorShift_Top = Color3.fromRGB(0,0,0)
-		Lighting.EnvironmentDiffuseScale = 0.2
-		Lighting.EnvironmentSpecularScale = 0.2
-		Lighting.GlobalShadows = true
-		Lighting.OutdoorAmbient = Color3.fromRGB(0,0,0)
-		Lighting.ShadowSoftness = 0.2
-		Lighting.ClockTime = 17
-		Lighting.GeographicLatitude = 45
-		Lighting.ExposureCompensation = 0.5
+            Sky.SkyboxBk = "http://www.roblox.com/asset/?id=151165214"
+            Sky.SkyboxDn = "http://www.roblox.com/asset/?id=151165197"
+            Sky.SkyboxFt = "http://www.roblox.com/asset/?id=151165224"
+            Sky.SkyboxLf = "http://www.roblox.com/asset/?id=151165191"
+            Sky.SkyboxRt = "http://www.roblox.com/asset/?id=151165206"
+            Sky.SkyboxUp = "http://www.roblox.com/asset/?id=151165227"
+            Sky.SunAngularSize = 10
 
-		Atm.Density = 0.364
-		Atm.Offset = 0.556
-		Atm.Color = Color3.fromRGB(199, 175, 166)
-		Atm.Decay = Color3.fromRGB(44, 39, 33)
-		Atm.Glare = 0.36
-		Atm.Haze = 1.72
+            Lighting.Ambient = Color3.fromRGB(2,2,2)
+            Lighting.Brightness = 2.25
+            Lighting.ColorShift_Bottom = Color3.fromRGB(0,0,0)
+            Lighting.ColorShift_Top = Color3.fromRGB(0,0,0)
+            Lighting.EnvironmentDiffuseScale = 0.2
+            Lighting.EnvironmentSpecularScale = 0.2
+            Lighting.GlobalShadows = true
+            Lighting.OutdoorAmbient = Color3.fromRGB(0,0,0)
+            Lighting.ShadowSoftness = 0.2
+            Lighting.ClockTime = 17
+            Lighting.GeographicLatitude = 45
+            Lighting.ExposureCompensation = 0.5
 
+            Atm.Density = 0.364
+            Atm.Offset = 0.556
+            Atm.Color = Color3.fromRGB(199, 175, 166)
+            Atm.Decay = Color3.fromRGB(44, 39, 33)
+            Atm.Glare = 0.36
+            Atm.Haze = 1.72
+
+        else
+
+            for _, v in pairs(Lighting:GetChildren()) do
+                if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") 
+                or v:IsA("SunRaysEffect") or v:IsA("Sky") or v:IsA("Atmosphere") then
+                    v:Destroy()
+                end
+            end
+
+            
+            Lighting.Ambient = Color3.fromRGB(128,128,128)
+            Lighting.Brightness = 1
+            Lighting.ColorShift_Bottom = Color3.fromRGB(0,0,0)
+            Lighting.ColorShift_Top = Color3.fromRGB(0,0,0)
+            Lighting.EnvironmentDiffuseScale = 1
+            Lighting.EnvironmentSpecularScale = 1
+            Lighting.GlobalShadows = true
+            Lighting.OutdoorAmbient = Color3.fromRGB(128,128,128)
+            Lighting.ShadowSoftness = 0
+            Lighting.ClockTime = 14
+            Lighting.GeographicLatitude = 41
+            Lighting.ExposureCompensation = 0
+        end
     end
 })
 Tab9:AddButton({
@@ -685,9 +790,9 @@ TabNM:AddToggle({
                 local clickDetector = fireXPath:FindFirstChild("ClickDetector")
 
                 if fireXPath and clickDetector then
-                    -- الانتقال
+                
                     root.CFrame = fireXPath.CFrame
-                    -- النقر
+                    
                     fireclickdetector(clickDetector)
                 end
 
