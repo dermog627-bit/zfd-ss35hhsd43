@@ -24,7 +24,7 @@ lighting = game:GetService("Lighting")
         existingEffect:Destroy()
     end
     
-    -- Cria novo efeito
+    
      effect = Instance.new(effectType)
     effect.Name = "ShadowShader_" .. effectType
     
@@ -68,7 +68,7 @@ Tab9:AddToggle({
     Callback = function(state)
         if state then
             applyShaderEffect("BloomEffect", {
-                Intensity = 1.5,      -
+                Intensity = 1.5,   
                 Size = 24,           
                 Threshold = 0.9      
             })
@@ -182,7 +182,6 @@ Tab9:AddSlider({
 
 Tab9:AddSection({"مودات الشادرز"})
 
--- Presets de shaders
  shaderPresets = {
     ["طور الحيوي"] = {
         BloomEffect = {Intensity = 2.0, Size = 24, Threshold = 0.8},
@@ -285,7 +284,7 @@ Tab9:AddButton({
             currentSky:Destroy()
         end
         
-        -- Cria novo sky
+       
          sky = Instance.new("Sky")
         sky.SkyboxBk = "rbxassetid://159454299"
         sky.SkyboxDn = "rbxassetid://159454296"
